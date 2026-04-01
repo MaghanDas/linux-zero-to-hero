@@ -1,9 +1,11 @@
 
 # 📁 Linux File System — Complete Deep Dive
 
-# The Golden Rule First
-# "In Linux, everything is a file."
-# examples: 
+##  Golden Rule First: "In Linux, everything is a file."
+
+``` bash
+
+examples: 
 Hardware devices → files in /dev/
 Running processes → files in /proc/
 System settings → files in /sys/
@@ -39,9 +41,11 @@ Directories → special files
 ├── boot/
 ├── media/
 └── mnt/
+```
 
 # TIER:1
 # / - Root Directory 
+``` bash
 ls /
 The absolute top of the entire filesystem tree
 Everything lives under / — there is no higher level
@@ -54,18 +58,17 @@ df -h /
 ls -la / | head -5
 "What happens if / fills up?"
 The system becomes unstable — can't write logs, can't create processes, SSH may fail. Always monitor / disk usage
-
-
-# /bin - essential User binaries
-ls /bin
 ```
 
+# /bin - essential User binaries
+``` bash
+ls /bin
 - Contains **essential commands** needed by ALL users
 - Available even in **single-user/rescue mode** (before other filesystems mount)
 - No external dependencies — self-contained
 
 **What lives here:**
-```
+
 ls, cp, mv, rm, mkdir, rmdir   → file operations
 cat, echo, grep, sed, awk      → text tools
 bash, sh                       → shells
@@ -80,18 +83,16 @@ gzip, tar                      → compression
 bashls -la /bin          # See if it's a symlink
 which ls             # Where does 'ls' actually live?
 file /bin/ls         # What type of file is ls?
-
-
+``` 
 # /sbin - System Binaries(Admin only)
+``` bash
 ls /sbin
-```
 
 - Like `/bin` but for **system administration** commands
 - Typically require **root** to run
 - Critical for system boot and repair
 
 **What lives here:**
-```
 init / systemd         → process manager (PID 1)
 fsck                   → filesystem check/repair
 fdisk, parted          → disk partitioning
@@ -108,7 +109,7 @@ ls -la /sbin/init      # Often a symlink to systemd
 # /lib and /lib64 — Shared Libraries
 ls /lib
 ls /lib64
-```
+
 
 - Shared **library files** (.so files) — like `.dll` on Windows
 - Used by programs in `/bin` and `/sbin`
@@ -116,7 +117,6 @@ ls /lib64
 - `/lib64` = 64-bit versions of the same libraries
 
 **What lives here:**
-```
 libc.so          → C standard library (almost everything uses this)
 libm.so          → Math library
 libpthread.so    → Threading library
@@ -134,8 +134,10 @@ lsmod
 # What is a shared library?"
 A compiled code file loaded at runtime by multiple programs simultaneously. Saves memory vs. static linking where each program carries its own copy.
 
+```
 
 # TIER-2 - The /usr Hierarchy (Unix System Resources)
+``` bash
 /usr is the largest directory on most systems. It contains the majority of user-space programs and data.
 bashdu -sh /usr    # Usually 3-10GB
 
@@ -147,7 +149,7 @@ ls /usr/bin | wc -l    # Hundreds of programs!
 ```
 
 **Examples:**
-```
+``` bash
 python3, perl, ruby        → scripting languages
 vim, nano, emacs           → text editors
 git, curl, wget            → developer tools
@@ -214,11 +216,11 @@ echo $PATH          # /usr/local/bin appears first
 ├── applications/  ← .desktop files (app launchers)
 └── zoneinfo/      ← timezone data
 
-
+```
 # Tier-3 - Configuration & Data 
 
 # /etc — System Configuration Files ⭐ (Most Important for Sysadmins)
-
+``` bash
 # ls /etc
 Every system-wide configuration file lives here
 Plain text files — editable with any text editor
@@ -282,18 +284,18 @@ bashhostnamectl set-hostname newname     # Modern way
 # AND edit /etc/hostname
 # AND update /etc/hosts
 
-
+```
 # /home - user home dicretories
+``` bash
 ls /home
 ls -la /home/alice/
-```
 
 - Each user gets `/home/username/`
 - Contains all personal files, configs, and data
 - Only that user (and root) can access it by default
 
 **What's inside a home directory:**
-```
+
 ~/.bashrc          # Personal bash config (aliases, functions)
 ~/.bash_profile    # Runs at login
 ~/.bash_history    # Every command you've typed
@@ -312,8 +314,9 @@ bashsudo ls -la /root
 The root user's home directory — NOT /home/root
 Separate from /home so root can log in even if /home is unmounted
 Only accessible by roo
-
+```
 # /var - variable data (changes constantly)
+``` bash
 ls /var
 du -sh /var/*  2>/dev/null | sort -rh | head -10
 Files here grow and change while the system runs.
@@ -354,11 +357,10 @@ journalctl -u nginx --since today     # Nginx logs today
 # 💼 Interview: "Where do you look first when a service crashes?"
 # /var/log/ — specifically journalctl -u servicename -xe or the app's log in /var/log/appname/
 
-
-
+```
 # Tier 4 - Virtual & Specila filesystems 
 # these don't extist on disk - the kernal genereated them in memory on the fly.
-
+```bash
 # /proc - process & kernal information 
 ls /porc 
 A virtual filesystem — nothing here is on disk
@@ -389,9 +391,10 @@ cat /proc/$PID/maps        # Memory map of the process
 # "How can you find what files a process has open without any extra tools?"
 # bashls -la /proc/PID/fd/    # Every open file is a symlink here
 
-
+```
 
 # /sys - System & Hardware information 
+```bash
 ls /sys
 Also virtual — kernel exposes hardware info
 More structured than /proc
@@ -406,8 +409,11 @@ cat /sys/class/power_supply/BAT0/capacity  # Battery %
 
 # You can WRITE to /sys to change kernel behavior at runtime!
 echo 1 > /sys/class/leds/caps_lock/brightness   # Toggle LED
+```
 
 # /dev - device files
+
+```bash
 ls /dev
 Every hardware device is represented as a file
 Programs read/write devices like files
@@ -447,10 +453,10 @@ lsblk              # See all block devices cleanly
 # What is /dev/null?"
 # A special device file that discards everything written to it. Reading from it returns EOF. Used to suppress output in scripts.
 
-
+```
 
 # TIER - 5 - BOOT, MOUNT & RUNTIME 
-
+```bash
 # /boot - Boot Files: 
 ls -la /boot
 Everything needed to boot the system
@@ -468,8 +474,9 @@ uname -r                      # Running kernel version
 ls /boot/vmlinuz*             # All installed kernels
 cat /boot/grub/grub.cfg | grep menuentry   # Boot menu entries
 
-
+```
 # /tmp - temporary files 
+```bash
 ls /tmp
 
 Temporary files created by programs and users
@@ -545,13 +552,33 @@ umount /mnt/usb
 # Example: mount a network share
 mount -t nfs 192.168.1.5:/share /mnt/nfs
 
+```
+# 📊 Complete Reference Table
 
-<!-- 📊 Complete Reference Table
-DirectoryContainsEditable?On Disk?/binEssential user commandsNoYes/sbinEssential admin commandsNoYes/libEssential libraries + kernel modulesNoYes/usr/binMost user programsNoYes/usr/localManually installed softwareYesYes/etcALL config filesYesYes/homeUser personal filesYesYes/rootRoot's homeYesYes/var/logSystem & app logsNo (auto)Yes/var/libApp persistent stateNo (auto)Yes/tmpTemporary filesYesRAM/Disk/runRuntime PIDs, socketsNo (auto)RAM/procLive kernel/process dataSomeRAM only/sysHardware/kernel paramsSomeRAM only/devDevice filesNoRAM only/bootKernel & bootloaderCarefullyYes/optOptional softwareYesYes/mntManual mount pointsYesDepends/mediaAuto-mount removableAutoDepends
- -->
+| Directory   | Contains                          | Editable?        | On Disk?        |
+|------------|-----------------------------------|------------------|-----------------|
+| /bin       | Essential user commands           | No               | Yes             |
+| /sbin      | Essential admin commands          | No               | Yes             |
+| /lib       | Essential libraries + kernel modules | No            | Yes             |
+| /usr/bin   | Most user programs                | No               | Yes             |
+| /usr/local | Manually installed software       | Yes              | Yes             |
+| /etc       | ALL config files                  | Yes              | Yes             |
+| /home      | User personal files               | Yes              | Yes             |
+| /root      | Root's home                       | Yes              | Yes             |
+| /var/log   | System & app logs                 | No (auto)        | Yes             |
+| /var/lib   | App persistent state             | No (auto)        | Yes             |
+| /tmp       | Temporary files                  | Yes              | RAM/Disk        |
+| /run       | Runtime PIDs, sockets            | No (auto)        | RAM             |
+| /proc      | Live kernel/process data         | Some             | RAM only        |
+| /sys       | Hardware/kernel params           | Some             | RAM only        |
+| /dev       | Device files                     | No               | RAM only        |
+| /boot      | Kernel & bootloader              | Carefully        | Yes             |
+| /opt       | Optional software                | Yes              | Yes             |
+| /mnt       | Manual mount points              | Yes              | Depends         |
+| /media     | Auto-mount removable             | Auto             | Depends         |
 
-
-# Practise - sesson
+# Practise - session
+```
 # 1. Explore the whole tree
 find / -maxdepth 1 -type d 2>/dev/null
 
@@ -584,9 +611,9 @@ mount | column -t
 # 8. Explore your home hidden files
 ls -la ~
 cat ~/.bashrc
-
+```
 # 💼 Top Interview Questions on Filesystem:
-
+```
 1. Where are passwords stored? → /etc/shadow (hashed)
 2. Where are cron jobs stored? → /var/spool/cron/ and /etc/cron.d/
 3. Where are logs? → /var/log/
