@@ -1,6 +1,10 @@
-# LESSON:3 - Users & Permissions 
+# LESSON:3 - Users & Permissions
 
-# USERS & GROUPS
+---
+
+## USERS & GROUPS
+
+```bash
 whoami           # Who am I logged in as?
 id               # Shows your UID, GID, groups
 who              # Who is logged into the system?
