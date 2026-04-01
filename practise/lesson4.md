@@ -1,3 +1,6 @@
+# EXERCISE: 4
+
+```bash
 # 1. Find the top 5 CPU-hungry processes
 ps aux --sort=-%cpu | head -6
 
