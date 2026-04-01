@@ -1,3 +1,5 @@
+# Exercise: 5
+``` bash
 # 1. List all usernames on the system
 cat /etc/passwd | cut -d: -f1
 
