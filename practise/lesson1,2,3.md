@@ -1,4 +1,6 @@
+
 # Exercise 1 - Navigate the system
+``` bash
 pwd
 ls -la /
 ls -la /etc | head -20
