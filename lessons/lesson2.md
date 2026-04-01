@@ -1,8 +1,11 @@
 
 # LESSON:2 - THE TERMINAL
 
-# BASIC NAVIGATION. 
+---
 
+## BASIC NAVIGATION
+
+```bash
 pwd          # Print Working Directory — where am I right now?
 ls           # List files
 ls -la       # List ALL files including hidden, with details
@@ -11,10 +14,8 @@ cd ~         # Go to your home directory
 cd ..        # Go one level up
 cd -         # Go back to previous directory
 clear        # Clear the screen (or Ctrl+L)
-```
 
 ## Understanding the File System — Critical!
-```
 /               ← Root, the top of everything
 ├── bin/        ← Essential binaries (ls, cp, mv)
 ├── etc/        ← ALL configuration files live here
@@ -46,3 +47,5 @@ less file.txt            # View file page by page (q to quit)
 head -n 5 file.txt       # First 5 lines
 tail -n 5 file.txt       # Last 5 lines
 tail -f /var/log/syslog  # LIVE follow a log file
+
+
