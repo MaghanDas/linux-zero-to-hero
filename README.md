@@ -1,8 +1,8 @@
-# linux-zero-to-hero
+# Linux-zero-to-hero
 
-## A comprehensive guide to master linux and shell scripting step by step with practise exercises and solutions. 
+### A comprehensive guide to master linux and shell scripting step by step with practise exercises and solutions. 
 
-## Phase 1 — Foundations (Where we start today)
+## Phase 1 — Foundations
 Linux history, philosophy, distros
 Terminal basics, navigation, file system
 Users, permissions, processes
