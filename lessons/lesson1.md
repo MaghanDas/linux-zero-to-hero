@@ -2,6 +2,7 @@
  # WHAT IS LINUX & HOW DOES IT WORK ?
 
  # BIG PICTURE
+
  Hardware (CPU, RAM, Disk)
         ↓
     [ KERNEL ]         ← Linux is technically just this
